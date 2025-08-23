@@ -57,7 +57,7 @@ public class Tela_login extends javax.swing.JFrame {
                     conexao.close();
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos");
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos. Verifique novamente!");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
