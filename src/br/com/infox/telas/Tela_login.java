@@ -22,7 +22,7 @@ public class Tela_login extends javax.swing.JFrame {
     public void logar() {
         String sql = "select * from tbusuario where login  = ? and senha = ?";
         try {
-            // linhas abicar preparam o banco em função do que foi digitado na
+            // linhas abaixo preparam o banco em função do que foi digitado na
             // caixa de texto e irar substituir o ?
             pst = conexao.prepareStatement(sql);
             pst.setString(1, txtlogin.getText());
@@ -70,8 +70,7 @@ public class Tela_login extends javax.swing.JFrame {
     public Tela_login() {
         initComponents();
         conexao = ModuloConexao.conector();
-        System.out.println(conexao);
-        getContentPane().setBackground(new Color(173, 190, 209)); // cinza claro
+        getContentPane().setBackground(new Color(173, 190, 209));// cinza clarooo
     }
 
     /**

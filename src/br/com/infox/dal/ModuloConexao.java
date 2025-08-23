@@ -3,6 +3,7 @@ package br.com.infox.dal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class ModuloConexao {
 
@@ -25,28 +26,15 @@ public class ModuloConexao {
 
             // Estabelecer conexão
             conexao = DriverManager.getConnection(url, user, password);
-            System.out.println("Conexão com Supabase estabelecida!");
             return conexao;
 
         } catch (ClassNotFoundException e) {
-            System.out.println("Driver PostgreSQL não encontrado!");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Driver PostgreSQL não encontrado!");
             return null;
 
         } catch (SQLException e) {
-            System.out.println("Erro ao conectar com Supabase!");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro a conectar com o supaBase!, Tente novamente.");
             return null;
-        }
-    }
-
-    // Teste rápido
-    public static void main(String[] args) {
-        Connection con = conector();
-        if (con != null) {
-            System.out.println("Teste de conexão OK!");
-        } else {
-            System.out.println("Falha na conexão.");
         }
     }
 }
