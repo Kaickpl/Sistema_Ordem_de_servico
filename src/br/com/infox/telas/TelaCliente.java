@@ -32,6 +32,8 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtcliba.setText(null);
         txtclicidade.setText(null);
         txtcliCEP.setText(null);
+        combocliestado.setSelectedItem(null);
+        comboclicom.setSelectedItem(null);
         ((DefaultTableModel) tblcli.getModel()).setRowCount(0);
     }
 

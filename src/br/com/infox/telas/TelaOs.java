@@ -66,7 +66,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
     }
     
     
-    private void adicionar(){
+    private void adicionarOS(){
     String sql = "INSERT INTO tbos(tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli)"
                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     try {
@@ -136,6 +136,26 @@ public class TelaOs extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, e);
     }
 }
+    
+    private void pesquisarOS(){
+        String num = JOptionPane.showInputDialog("Número da OS");
+        String sql = "select * from tbos where os = " + num;
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "Nenhuma ordem de serviço encontrada.");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro. Tente novamente");
+            
+        }
+            
+            
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -394,6 +414,11 @@ public class TelaOs extends javax.swing.JInternalFrame {
 
         btnpesqos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/icones/file (1).png"))); // NOI18N
         btnpesqos.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnpesqos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpesqosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -507,7 +532,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tabelaoscliKeyReleased
 
     private void btnaddosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaddosActionPerformed
-        adicionar();
+        adicionarOS();
     }//GEN-LAST:event_btnaddosActionPerformed
 
     private void txtosnomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtosnomeKeyReleased
@@ -536,6 +561,10 @@ public class TelaOs extends javax.swing.JInternalFrame {
     private void btneditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btneditosActionPerformed
+
+    private void btnpesqosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesqosActionPerformed
+        pesquisarOS();
+    }//GEN-LAST:event_btnpesqosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

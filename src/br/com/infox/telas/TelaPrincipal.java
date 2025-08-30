@@ -15,9 +15,21 @@ import javax.swing.JOptionPane;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TelaPrincipal
-     */
+    private void abrirTelaUnica(javax.swing.JInternalFrame tela) {
+    // Fecha/remover todas as janelas abertas antes
+    Desktop.removeAll();
+    Desktop.repaint();
+
+    // Adiciona a nova
+    Desktop.add(tela);
+    tela.setVisible(true);
+
+    try {
+        tela.setSelected(true); // foca nela
+    } catch (java.beans.PropertyVetoException e) {
+        e.printStackTrace();
+    }
+}
     public TelaPrincipal() {
         initComponents();
         setUndecorated(false);
@@ -244,15 +256,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void mencadcliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mencadcliActionPerformed
         TelaCliente cliente = new TelaCliente();
-        cliente.setVisible(true);
-        Desktop.add(cliente);
+           abrirTelaUnica(cliente);
 
     }//GEN-LAST:event_mencadcliActionPerformed
 
     private void mencadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mencadosActionPerformed
        TelaOs os = new TelaOs();
        os.setVisible(true);
-       Desktop.add(os);
+       abrirTelaUnica(os);
     }//GEN-LAST:event_mencadosActionPerformed
 
     private void menrelserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menrelserActionPerformed
@@ -281,7 +292,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void menajusobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menajusobActionPerformed
         // chamando a tela sobre 
         TelaSobre2 sobre = new TelaSobre2();
-        Desktop.add(sobre);   // Adiciona ao JDesktopPane!
+        abrirTelaUnica(sobre);   // Adiciona ao JDesktopPane!
         sobre.setVisible(true);
         try {
             sobre.setSelected(true);  // Seleciona a janela interna (opcional)
@@ -298,7 +309,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // as linhas abaixo vão abrir o forms TelaUsuario, dentro do desktoPane
         TelaUsuario usuario = new TelaUsuario();
         usuario.setVisible(true);
-        Desktop.add(usuario);
+        abrirTelaUnica(usuario);
 
     }//GEN-LAST:event_mencadusuActionPerformed
 
