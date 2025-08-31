@@ -146,10 +146,8 @@
               <EmptySpace min="-2" pref="87" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnusuadd" max="32767" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="btnusudel" max="32767" attributes="0"/>
-                      <Component id="btnusupes" alignment="0" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="btnusudel" max="32767" attributes="0"/>
+                  <Component id="btnusupes" alignment="0" max="32767" attributes="0"/>
                   <Component id="btnusuedt" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>

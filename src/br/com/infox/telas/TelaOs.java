@@ -21,7 +21,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
     ResultSet rs = null;
     // cria uma variavel para armazenar um texto de acordo com um radion butoon
     private String tipo;
-    
+
     public TelaOs() {
         initComponents();
         conexao = ModuloConexao.conector();
@@ -35,126 +35,229 @@ public class TelaOs extends javax.swing.JInternalFrame {
             pst.setString(1, txtosnome.getText() + "%"); // pesquisa por nome
             rs = pst.executeQuery();
             tabelaoscli.setModel(DbUtils.resultSetToTableModel(rs));
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
 
     }
-    
-    private void setar_campos(){
+
+    private void setar_campos() {
         int setar = tabelaoscli.getSelectedRow();
         txtosid.setText(tabelaoscli.getModel().getValueAt(setar, 0).toString());
     }
-    
-    private void limparCamposOS(){
-    txtosequip.setText(null);
-    txtosdef.setText(null);
-    txtosserv.setText(null);
-    txtostec.setText(null);
-    txtosvalor.setText(null);
-    txtosid.setText(null);
+
+    private void limparCamposOS() {
+        txtosequip.setText(null);
+        txtosdef.setText(null);
+        txtosserv.setText(null);
+        txtostec.setText(null);
+        txtosvalor.setText(null);
+        txtosid.setText(null);
+        combosituacao.setSelectedItem(null);
+        txtordemid.setText(null);
+        txtosdata.setText(null);
     }
-    private void corNormalOS(){
-    Color normal = Color.WHITE;
-    txtosequip.setBackground(normal);
-    txtosdef.setBackground(normal);
-    txtosserv.setBackground(normal);
-    txtostec.setBackground(normal);
-    txtosvalor.setBackground(normal);
-    txtosid.setBackground(normal); 
+
+    private void corNormalOS() {
+        Color normal = Color.WHITE;
+        txtosequip.setBackground(normal);
+        txtosdef.setBackground(normal);
+        txtosserv.setBackground(normal);
+        txtostec.setBackground(normal);
+        txtosvalor.setBackground(normal);
+        txtosid.setBackground(normal);
+        combosituacao.setBackground(normal);
     }
-    
-    
-    private void adicionarOS(){
-    String sql = "INSERT INTO tbos(tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli)"
-               + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    try {
-        pst = conexao.prepareStatement(sql);
-        pst.setString(1, tipo);
-        pst.setString(2, combosituacao.getSelectedItem().toString());
-        pst.setString(3, txtosequip.getText());
-        pst.setString(4, txtosdef.getText());
-        pst.setString(5, txtosserv.getText());
-        pst.setString(6, txtostec.getText());
-        String valorTexto = txtosvalor.getText().replace(",", ".");
-        double valorNumerico = Double.parseDouble(valorTexto);
-        pst.setDouble(7, valorNumerico);
-        int idCliente = Integer.parseInt(txtosid.getText());
-        pst.setInt(8, idCliente);
 
-        boolean camposVazios = false;
-        Color alerta = new Color(255, 204, 204);
+    private void adicionarOS() {
+        String sql = "INSERT INTO tbos(tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, combosituacao.getSelectedItem().toString());
+            pst.setString(3, txtosequip.getText());
+            pst.setString(4, txtosdef.getText());
+            pst.setString(5, txtosserv.getText());
+            pst.setString(6, txtostec.getText());
+            String valorTexto = txtosvalor.getText().replace(",", ".");
+            double valorNumerico = Double.parseDouble(valorTexto);
+            pst.setDouble(7, valorNumerico);
+            int idCliente = Integer.parseInt(txtosid.getText());
+            pst.setInt(8, idCliente);
 
-        // Verifica cada campo obrigatório
-        if (tipo == null || tipo.trim().isEmpty()) {
-            camposVazios = true;
-        }
-        if (combosituacao.getSelectedItem() == null || combosituacao.getSelectedItem().toString().trim().isEmpty()) {
-            camposVazios = true;
-            combosituacao.setBackground(alerta);
-        }
-        if (txtosequip.getText().isEmpty()) {
-            camposVazios = true;
-            txtosequip.setBackground(alerta);
-        }
-        if (txtosdef.getText().isEmpty()) {
-            camposVazios = true;
-            txtosdef.setBackground(alerta);
-        }
-        if (txtosserv.getText().isEmpty()) {
-            camposVazios = true;
-            txtosserv.setBackground(alerta);
-        }
-        if (txtostec.getText().isEmpty()) {
-            camposVazios = true;
-            txtostec.setBackground(alerta);
-        }
-        if (txtosvalor.getText().isEmpty()) {
-            camposVazios = true;
-            txtosvalor.setBackground(alerta);
-        }
-        if (txtosid.getText().isEmpty()) {
-            camposVazios = true;
-            txtosid.setBackground(alerta);
-        }
+            boolean camposVazios = false;
+            Color alerta = new Color(255, 204, 204);
 
-        if (camposVazios) {
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
-            return;
-        }
+            // Verifica cada campo obrigatório
+            if (tipo == null || tipo.trim().isEmpty()) {
+                camposVazios = true;
+            }
+            if (combosituacao.getSelectedItem() == null || combosituacao.getSelectedItem().toString().isEmpty()) {
+                camposVazios = true;
+                combosituacao.setBackground(alerta);
+            }
+            if (txtosequip.getText().isEmpty()) {
+                camposVazios = true;
+                txtosequip.setBackground(alerta);
+            }
+            if (txtosdef.getText().isEmpty()) {
+                camposVazios = true;
+                txtosdef.setBackground(alerta);
+            }
+            if (txtosserv.getText().isEmpty()) {
+                camposVazios = true;
+                txtosserv.setBackground(alerta);
+            }
+            if (txtostec.getText().isEmpty()) {
+                camposVazios = true;
+                txtostec.setBackground(alerta);
+            }
+            if (txtosvalor.getText().isEmpty()) {
+                camposVazios = true;
+                txtosvalor.setBackground(alerta);
+            }
+            if (txtosid.getText().isEmpty()) {
+                camposVazios = true;
+                txtosid.setBackground(alerta);
+            }
 
-        // Se chegou aqui, todos os campos foram preenchidos
-        int adicionado = pst.executeUpdate();
-        if (adicionado > 0) {
-            JOptionPane.showMessageDialog(null, "Ordem de serviço cadastrada com sucesso!");
-            limparCamposOS();
-            corNormalOS();
-        }
+            if (camposVazios) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+                return;
+            }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
+            // Se chegou aqui, todos os campos foram preenchidos
+            int adicionado = pst.executeUpdate();
+            if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Ordem de serviço cadastrada com sucesso!");
+                limparCamposOS();
+                corNormalOS();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
-}
-    
-    private void pesquisarOS(){
+
+    private void pesquisarOS() {
         String num = JOptionPane.showInputDialog("Número da OS");
         String sql = "select * from tbos where os = " + num;
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
             if (rs.next()) {
-                
-                
+                txtordemid.setText(rs.getString(1));
+                txtosdata.setText(rs.getString(2));
+                // setando o campo tipo
+                String rbtTipo = rs.getString(3);
+                if (rbtTipo.equals("Ordem de Serviço")) {
+                    radioOS.setSelected(true);
+                    tipo = "Ordem de Serviço";
+                } else {
+                    radioorcamento.setSelected(true);
+                    tipo = "Orçarmento";
+                }
+                combosituacao.setSelectedItem(rs.getString(4));
+                txtosequip.setText(rs.getString(5));
+                txtosdef.setText(rs.getString(6));
+                txtosserv.setText(rs.getString(7));
+                txtostec.setText(rs.getString(8));
+                txtosvalor.setText(rs.getString(9));
+                txtosid.setText(rs.getString(10));
+                btnaddos.setEnabled(false);
+                txtosnome.setEnabled(false);
+                tabelaoscli.setVisible(false);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Nenhuma ordem de serviço encontrada.");
+                pesquisarOS();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro. Tente novamente");
-            
+            pesquisarOS();
         }
-            
-            
+    }
+
+    private void alterarOS() {
+        String sql = "update tbos set tipo = ?,situacao=?,equipamento=?,defeito=?,servico=?,tecnico=?,valor=? where os=?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, tipo);
+            pst.setString(2, combosituacao.getSelectedItem().toString());
+            pst.setString(3, txtosequip.getText());
+            pst.setString(4, txtosdef.getText());
+            pst.setString(5, txtosserv.getText());
+            pst.setString(6, txtostec.getText());
+            String valorTexto = txtosvalor.getText().replace(",", ".");
+            double valorNumerico = Double.parseDouble(valorTexto);
+            pst.setDouble(7, valorNumerico);
+            pst.setInt(8, Integer.parseInt(txtordemid.getText()));
+
+            boolean camposVazios = false;
+            Color alerta = new Color(255, 204, 204);
+
+            // Verifica cada campo obrigatório
+            if (tipo == null || tipo.trim().isEmpty()) {
+                camposVazios = true;
+            }
+            if (combosituacao.getSelectedItem() == null || combosituacao.getSelectedItem().toString().isEmpty()) {
+                camposVazios = true;
+                combosituacao.setBackground(alerta);
+            }
+            if (txtosequip.getText().isEmpty()) {
+                camposVazios = true;
+                txtosequip.setBackground(alerta);
+            }
+            if (txtosdef.getText().isEmpty()) {
+                camposVazios = true;
+                txtosdef.setBackground(alerta);
+            }
+            if (txtosserv.getText().isEmpty()) {
+                camposVazios = true;
+                txtosserv.setBackground(alerta);
+            }
+            if (txtostec.getText().isEmpty()) {
+                camposVazios = true;
+                txtostec.setBackground(alerta);
+            }
+            if (txtosvalor.getText().isEmpty()) {
+                camposVazios = true;
+                txtosvalor.setBackground(alerta);
+            }
+            if (txtosid.getText().isEmpty()) {
+                camposVazios = true;
+                txtosid.setBackground(alerta);
+            }
+
+            if (camposVazios) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!");
+                return;
+            }
+
+            // Se chegou aqui, todos os campos foram preenchidos
+            int adicionado = pst.executeUpdate();
+            if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Ordem de serviço alterada com sucesso!");
+                limparCamposOS();
+                corNormalOS();
+                btnaddos.setEnabled(true);
+                txtosnome.setEnabled(true);
+                tabelaoscli.setVisible(true);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void excluirOS() {
+        int confirmar = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir esta ordem de serviço?\n"
+                + "Equipamento vinculado: " + txtosequip.getText(),
+                "Remover Ordem de Serviço",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
     }
 
     @SuppressWarnings("unchecked")
@@ -228,6 +331,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         txtordemid.setEditable(false);
 
         txtosdata.setEditable(false);
+        txtosdata.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
 
         buttonGroup1.add(radioorcamento);
         radioorcamento.setText("Orçamento");
@@ -252,14 +356,18 @@ public class TelaOs extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblidos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtordemid, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(radioorcamento))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(radioOS)
-                    .addComponent(lbldataos)
-                    .addComponent(txtosdata, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(radioorcamento)
+                        .addGap(35, 35, 35)
+                        .addComponent(radioOS))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lblidos, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(lbldataos))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtordemid, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtosdata, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -284,7 +392,7 @@ public class TelaOs extends javax.swing.JInternalFrame {
         lblsituacao.setText("Situação");
 
         combosituacao.setFont(new java.awt.Font("Yu Gothic", 1, 12)); // NOI18N
-        combosituacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--------------", "Entrega feita ", "Orçamento REPROVADO", "Aguardando APROVAÇÃO", "Aguardando peças", "Abandonado pelo cliente", "Na bancada", "Retornou", " ", " " }));
+        combosituacao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrega feita ", "Orçamento REPROVADO", "Aguardando APROVAÇÃO", "Aguardando peças", "Abandonado pelo cliente", "Na bancada", "Retornou", " ", " " }));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
 
@@ -393,6 +501,11 @@ public class TelaOs extends javax.swing.JInternalFrame {
         btndeleteos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/icones/file.png"))); // NOI18N
         btndeleteos.setToolTipText("Deletar Ordem de Serviço");
         btndeleteos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btndeleteos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btndeleteosActionPerformed(evt);
+            }
+        });
 
         btnprintos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/icones/printer.png"))); // NOI18N
         btnprintos.setToolTipText("Imprimir Ordem de Serviço");
@@ -438,17 +551,13 @@ public class TelaOs extends javax.swing.JInternalFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(8, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblosserv)
-                            .addComponent(lblosdef))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblosserv, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                            .addComponent(lblosdef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(43, 43, 43)
-                                        .addComponent(txtosequip)))
+                                .addGap(33, 33, 33)
+                                .addComponent(txtosequip, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -456,10 +565,15 @@ public class TelaOs extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtostec, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
                                         .addComponent(lblosvalor)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtosvalor, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,35 +595,33 @@ public class TelaOs extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(combosituacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblsituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblosequip)
+                    .addComponent(txtosequip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblostec)
+                    .addComponent(txtostec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblosdef)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblosvalor)
                         .addComponent(txtosvalor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(combosituacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblsituacao, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblosequip)
-                            .addComponent(txtosequip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblostec)
-                            .addComponent(txtostec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblosdef)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblosserv)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblosserv))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -559,12 +671,16 @@ public class TelaOs extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void btneditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneditosActionPerformed
-        // TODO add your handling code here:
+        alterarOS();
     }//GEN-LAST:event_btneditosActionPerformed
 
     private void btnpesqosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpesqosActionPerformed
         pesquisarOS();
     }//GEN-LAST:event_btnpesqosActionPerformed
+
+    private void btndeleteosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteosActionPerformed
+        excluirOS();
+    }//GEN-LAST:event_btndeleteosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

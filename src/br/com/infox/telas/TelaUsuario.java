@@ -192,7 +192,10 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     private void excluir() {
         int confirmar = JOptionPane.showConfirmDialog(null, "Tem "
                 + "certeza que deseja remover o acesso de "
-                + txtusunome.getText() + " do sistema?");
+                + txtusunome.getText() + " do sistema?",
+                "Remover Usuário",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
         if (confirmar == JOptionPane.YES_OPTION) {
             String sql = "delete FROM tbusuario WHERE iduser = ?";
             try {
